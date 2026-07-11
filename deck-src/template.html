@@ -256,7 +256,7 @@ function homeView(){
   </select></div>
   <div class="actions">
     <button class="btn primary" data-action="study" ${canStudy ? '' : 'disabled'}>${canStudy ? 'Заниматься' : 'На сегодня всё ✓'}<small>${canStudy ? due + ' к повторению · ' + nNew + ' новых' : 'загляни завтра - повторения появятся по расписанию'}</small></button>
-    <button class="btn secondary" data-action="browse">Все карточки и ответы</button>
+    <button class="btn secondary" data-action="browse">Посмотреть все карточки и ответы</button>
   </div>
   <div class="eyebrow sec-head">Занятия по разделам</div>
   <div class="sec-list">${secRows}</div>
