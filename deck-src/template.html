@@ -42,7 +42,7 @@ button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:
 .chip{display:inline-block;font-size:11px;letter-spacing:.05em;font-weight:600;padding:2px 9px;border-radius:99px}
 .chip.gold{background:var(--gold-soft);color:var(--gold)}
 .hdr{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:6px 0 4px}
-.hdr h1{font-family:var(--serif);font-size:26px;margin:0;font-weight:700;letter-spacing:.01em}
+.hdr h1{font-family:var(--serif);font-size:24px;margin:0;font-weight:700;letter-spacing:.01em;text-wrap:balance}
 .hdr .sub{color:var(--muted);font-size:13px}
 .statline{display:flex;gap:18px;margin:14px 0 18px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
 .stat b{display:block;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.15}
@@ -78,6 +78,9 @@ button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:
 .bar .y{background:var(--accent);opacity:.55}
 .foot{margin-top:26px;font-size:12.5px;color:var(--muted);text-align:center}
 .foot .linkbtn{color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:12.5px}
+.byline{margin-top:16px;font-size:12px;color:var(--muted);letter-spacing:.02em}
+.byline a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.byline a:hover{color:var(--accent)}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
 .linkbtn{color:var(--accent);font-weight:600;font-size:14px}
 .progress{flex:1;height:4px;background:var(--track);border-radius:99px;overflow:hidden;margin:0 4px}
@@ -239,8 +242,8 @@ function homeView(){
     return `<button class="sec-row" data-action="study-sec" data-sec="${esc(sec)}" ${can ? '' : 'disabled'}><span class="info"><span class="name">${esc(sec)}</span><span class="ssub">${ssub}</span></span><span class="right"><span class="cnt">${m + y}/${cs.length}</span><span class="bar"><i class="m" style="width:${m/cs.length*100}%"></i><i class="y" style="width:${y/cs.length*100}%"></i></span></span><span class="chev"></span></button>`;
   }).join('');
   return `
-  <div class="hdr"><h1>Гиюр · карточки</h1><span class="sub">5786</span></div>
-  <div class="sub" style="color:var(--muted);font-size:13.5px">Итоговые вопросы курса — ${DECK.length} карточек · реформистская традиция, Израиль</div>
+  <div class="hdr"><h1>Гиюр · итоговые вопросы курса</h1></div>
+  <div class="sub" style="color:var(--muted);font-size:13.5px">Реформистская традиция · ${DECK.length} карточек · Израиль · 5786</div>
   <div class="statline">
     <div class="stat due"><b>${due}</b><span>к повторению</span></div>
     <div class="stat"><b>${fresh}</b><span>новых</span></div>
@@ -250,13 +253,13 @@ function homeView(){
     <button class="btn primary" data-action="study" ${canStudy ? '' : 'disabled'}>${canStudy ? 'Заниматься' : 'На сегодня всё ✓'}<small>${canStudy ? due + ' к повторению · ' + nNew + ' новых' : 'загляни завтра — повторения появятся по расписанию'}</small></button>
     <button class="btn secondary" data-action="browse">Все карточки и ответы</button>
   </div>
-  <div class="setrow"><label for="newlim">Новых карточек за занятие</label><select id="newlim">
+  <div class="setrow"><label for="newlim">Выбери количество карточек для изучения</label><select id="newlim">
     ${[5,10,15,25,50].map(n => `<option value="${n}" ${lim === n ? 'selected' : ''}>${n}</option>`).join('')}
     <option value="all" ${lim === 'all' ? 'selected' : ''}>все</option>
   </select></div>
   <div class="eyebrow sec-head">Занятия по разделам</div>
   <div class="sec-list">${secRows}</div>
-  <div class="foot">${storageOk ? 'Прогресс хранится в этом браузере и не синхронизируется между устройствами.' : '⚠ Хранилище недоступно — прогресс не переживёт перезагрузку страницы.'}<br><button class="linkbtn" data-action="reset">Сбросить прогресс</button></div>`;
+  <div class="foot">${storageOk ? 'Прогресс хранится в этом браузере и не синхронизируется между устройствами.' : '⚠ Хранилище недоступно — прогресс не переживёт перезагрузку страницы.'}<br><button class="linkbtn" data-action="reset">Сбросить прогресс</button><div class="byline">by <a href="https://t.me/dubrovai" target="_blank" rel="noopener">Alexei Dubrovai</a></div></div>`;
 }
 
 function studyView(){
