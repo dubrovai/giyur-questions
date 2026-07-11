@@ -142,8 +142,8 @@ const KEY = 'giyur-cards-v1';
 
 let mem = null, storageOk = true;
 function load(){
-  try{ return JSON.parse(localStorage.getItem(KEY)) || {cards:{}, settings:{newLimit:15}}; }
-  catch(e){ storageOk = false; return mem || {cards:{}, settings:{newLimit:15}}; }
+  try{ return JSON.parse(localStorage.getItem(KEY)) || {cards:{}, settings:{newLimit:'all'}}; }
+  catch(e){ storageOk = false; return mem || {cards:{}, settings:{newLimit:'all'}}; }
 }
 function save(s){
   mem = s;
@@ -151,7 +151,8 @@ function save(s){
   try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){ storageOk = false; }
 }
 let S = load();
-if(!S.settings) S.settings = {newLimit:15};
+if(!S.settings) S.settings = {newLimit:'all'};
+if(!S.settings.v2){ if(S.settings.newLimit === 15) S.settings.newLimit = 'all'; S.settings.v2 = true; save(S); }
 
 const today = () => Math.floor((Date.now() - new Date().getTimezoneOffset()*60000) / 864e5);
 const st = id => S.cards[id];
@@ -180,7 +181,7 @@ let shown = false;
 function startSession(sec){
   const pool = sec ? DECK.filter(c => c.sec === sec) : DECK;
   const due = pool.filter(c => isDue(c.id)).map(c => c.id);
-  const lim = S.settings.newLimit;
+  const lim = sec ? 'all' : S.settings.newLimit;
   const fresh = shuffle(pool.filter(c => !st(c.id)).map(c => c.id)).slice(0, lim === 'all' ? Infinity : lim);
   session = {queue: shuffle([...due, ...fresh]), total: due.length + fresh.length, done: 0, rev: due.length, fresh: fresh.length, sec: sec || null};
   shown = false;
@@ -237,9 +238,8 @@ function homeView(){
     const y = cs.filter(c => st(c.id) && !isMature(c.id)).length;
     const sdue = cs.filter(c => isDue(c.id)).length;
     const sfresh = cs.filter(c => !st(c.id)).length;
-    const sNew = lim === 'all' ? sfresh : Math.min(lim, sfresh);
-    const can = sdue + sNew > 0;
-    const ssub = can ? [sdue ? sdue + ' к повторению' : '', sNew ? sNew + ' новых' : ''].filter(Boolean).join(' · ') : 'на сегодня всё ✓';
+    const can = sdue + sfresh > 0;
+    const ssub = can ? [sdue ? sdue + ' к повторению' : '', sfresh ? sfresh + ' новых' : ''].filter(Boolean).join(' · ') : 'на сегодня всё ✓';
     return `<button class="sec-row" data-action="study-sec" data-sec="${esc(sec)}" ${can ? '' : 'disabled'}><span class="info"><span class="name">${esc(sec)}</span><span class="ssub">${ssub}</span></span><span class="right"><span class="cnt">${m + y}/${cs.length}</span><span class="bar"><i class="m" style="width:${m/cs.length*100}%"></i><i class="y" style="width:${y/cs.length*100}%"></i></span></span><span class="chev"></span></button>`;
   }).join('');
   return `
