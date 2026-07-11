@@ -1,0 +1,378 @@
+<style>
+:root{
+  --bg:#FAFAF6; --surface:#FFFFFF; --ink:#242A3A; --muted:#6B7285; --line:#E4E4DC;
+  --accent:#2F5FC0; --accent-ink:#FFFFFF; --accent-soft:#E9EEFA; --track:#ECECE4;
+  --gold:#8F6F1F; --gold-soft:#F5EEDC;
+  --again:#A8434A; --again-soft:#F7E7E8; --hard:#8A6210; --hard-soft:#F4EBD7;
+  --good:#2F5FC0; --good-soft:#E9EEFA; --easy:#3E7D4E; --easy-soft:#E5F0E7;
+  --shadow:0 1px 2px rgba(30,38,66,.06),0 6px 24px -12px rgba(30,38,66,.18);
+  --serif:ui-serif,'New York',Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#141824; --surface:#1D2331; --ink:#E8EAF1; --muted:#99A1B5; --line:#2B3245;
+  --accent:#8FAEF2; --accent-ink:#10182C; --accent-soft:#232E48; --track:#242B3C;
+  --gold:#D2AC5E; --gold-soft:#2E2917;
+  --again:#E08A90; --again-soft:#3A2226; --hard:#D9B25F; --hard-soft:#332B15;
+  --good:#8FAEF2; --good-soft:#232E48; --easy:#8CC79B; --easy-soft:#1E3024;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 28px -14px rgba(0,0,0,.6);
+}}
+:root[data-theme="dark"]{
+  --bg:#141824; --surface:#1D2331; --ink:#E8EAF1; --muted:#99A1B5; --line:#2B3245;
+  --accent:#8FAEF2; --accent-ink:#10182C; --accent-soft:#232E48; --track:#242B3C;
+  --gold:#D2AC5E; --gold-soft:#2E2917;
+  --again:#E08A90; --again-soft:#3A2226; --hard:#D9B25F; --hard-soft:#332B15;
+  --good:#8FAEF2; --good-soft:#232E48; --easy:#8CC79B; --easy-soft:#1E3024;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 28px -14px rgba(0,0,0,.6);
+}
+:root[data-theme="light"]{
+  --bg:#FAFAF6; --surface:#FFFFFF; --ink:#242A3A; --muted:#6B7285; --line:#E4E4DC;
+  --accent:#2F5FC0; --accent-ink:#FFFFFF; --accent-soft:#E9EEFA; --track:#ECECE4;
+  --gold:#8F6F1F; --gold-soft:#F5EEDC;
+  --again:#A8434A; --again-soft:#F7E7E8; --hard:#8A6210; --hard-soft:#F4EBD7;
+  --good:#2F5FC0; --good-soft:#E9EEFA; --easy:#3E7D4E; --easy-soft:#E5F0E7;
+  --shadow:0 1px 2px rgba(30,38,66,.06),0 6px 24px -12px rgba(30,38,66,.18);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+#app{max-width:680px;margin:0 auto;padding:20px 16px 40px}
+button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:inherit;padding:0}
+.eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.chip{display:inline-block;font-size:11px;letter-spacing:.05em;font-weight:600;padding:2px 9px;border-radius:99px}
+.chip.gold{background:var(--gold-soft);color:var(--gold)}
+.hdr{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:6px 0 4px}
+.hdr h1{font-family:var(--serif);font-size:26px;margin:0;font-weight:700;letter-spacing:.01em}
+.hdr .sub{color:var(--muted);font-size:13px}
+.statline{display:flex;gap:18px;margin:14px 0 18px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat span{font-size:12px;color:var(--muted)}
+.stat.due b{color:var(--accent)}
+.stat.mature b{color:var(--gold)}
+.actions{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.btn{border-radius:13px;padding:14px 18px;font-size:16px;font-weight:600;text-align:center;min-height:48px;transition:transform .06s ease,opacity .15s ease}
+.btn:active{transform:scale(.985)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.primary small{display:block;font-weight:500;font-size:12.5px;opacity:.85;margin-top:1px}
+.btn.secondary{background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:focus-visible,.rate:focus-visible,.linkbtn:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--muted);margin:0 2px 20px}
+.setrow select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 8px}
+.sec-list{display:flex;flex-direction:column;gap:8px}
+.sec-row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 14px;width:100%;text-align:left;transition:transform .06s ease}
+.sec-row:not([disabled]):active{transform:scale(.99)}
+.sec-row[disabled]{cursor:default}
+.sec-row[disabled] .ssub,.sec-row[disabled] .chev{opacity:.5}
+.sec-row .info{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}
+.sec-row .name{font-size:14.5px;font-weight:600}
+.sec-row .ssub{font-size:12px;color:var(--muted)}
+.sec-row .right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none}
+.sec-row .cnt{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sec-row .chev{flex:none;width:8px;height:8px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(-45deg)}
+.sec-row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sec-head{margin:0 2px 8px}
+.bar{width:86px;height:6px;background:var(--track);border-radius:99px;overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.bar .m{background:var(--gold)}
+.bar .y{background:var(--accent);opacity:.55}
+.foot{margin-top:26px;font-size:12.5px;color:var(--muted);text-align:center}
+.foot .linkbtn{color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:12.5px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.linkbtn{color:var(--accent);font-weight:600;font-size:14px}
+.progress{flex:1;height:4px;background:var(--track);border-radius:99px;overflow:hidden;margin:0 4px}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .2s ease}
+.counter{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px 20px 24px;margin-bottom:14px}
+.card .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.card .q{font-family:var(--serif);font-size:22px;line-height:1.4;font-weight:600;text-wrap:balance;margin:0}
+.answer{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
+.answer .a{font-size:16.5px;font-weight:600;line-height:1.55;margin:0 0 10px}
+.answer .d{font-size:14.5px;color:var(--muted);margin:10px 0 0}
+.answer.personal{border-top-color:var(--gold)}
+.heblock{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:12px 0}
+.heblock .he{direction:rtl;text-align:right;font-size:22px;line-height:1.75;font-weight:500}
+.heblock .tr{font-style:italic;color:var(--muted);font-size:14px;margin-top:8px}
+.heblock .ru{font-size:14px;margin-top:6px}
+.ratebar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+.ratebar .inner{max-width:680px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ratebar .inner.single{grid-template-columns:1fr}
+.rate{border-radius:12px;padding:9px 4px;font-size:14.5px;font-weight:700;min-height:52px;transition:transform .06s ease}
+.rate:active{transform:scale(.97)}
+.rate small{display:block;font-weight:500;font-size:11.5px;opacity:.75;font-variant-numeric:tabular-nums}
+.rate.again{background:var(--again-soft);color:var(--again)}
+.rate.hard{background:var(--hard-soft);color:var(--hard)}
+.rate.good{background:var(--good-soft);color:var(--good)}
+.rate.easy{background:var(--easy-soft);color:var(--easy)}
+.rate.flip{background:var(--accent);color:var(--accent-ink);font-size:16px}
+.studywrap{padding-bottom:96px}
+.kbdhint{display:none;text-align:center;color:var(--muted);font-size:12px;margin-top:10px}
+@media (min-width:700px){.kbdhint{display:block}}
+.done{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:34px 22px;text-align:center}
+.done h2{font-family:var(--serif);font-size:24px;margin:0 0 8px}
+.done p{color:var(--muted);margin:0 0 20px;font-size:14.5px}
+.search{width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:14px}
+.search::placeholder{color:var(--muted)}
+details.sec{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+details.sec>summary{list-style:none;display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;font-weight:700;font-size:15px}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary .n{color:var(--muted);font-weight:500;font-size:12.5px;margin-left:auto;font-variant-numeric:tabular-nums}
+details.sec>summary::before{content:'';width:8px;height:8px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;flex:none}
+details.sec[open]>summary::before{transform:rotate(45deg)}
+details.qa{border-top:1px solid var(--line)}
+details.qa>summary{list-style:none;display:flex;gap:10px;align-items:flex-start;padding:12px 16px;cursor:pointer;font-size:14.5px;line-height:1.45}
+details.qa>summary::-webkit-details-marker{display:none}
+.dot{flex:none;width:8px;height:8px;border-radius:99px;background:var(--track);margin-top:6px}
+.dot.y{background:var(--accent);opacity:.65}
+.dot.m{background:var(--gold)}
+details.qa .topic{color:var(--muted);font-size:11.5px;display:block;letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px}
+details.qa .body{padding:2px 16px 14px 34px;font-size:14px}
+details.qa .body .a{font-weight:600;margin:0 0 8px}
+details.qa .body .d{color:var(--muted);margin:8px 0 0}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div id="app" role="application"></div>
+<script>
+const DECK = /*__DECK__*/[];
+const SECTIONS = [...new Set(DECK.map(c => c.sec))];
+const KEY = 'giyur-cards-v1';
+
+let mem = null, storageOk = true;
+function load(){
+  try{ return JSON.parse(localStorage.getItem(KEY)) || {cards:{}, settings:{newLimit:15}}; }
+  catch(e){ storageOk = false; return mem || {cards:{}, settings:{newLimit:15}}; }
+}
+function save(s){
+  mem = s;
+  if(!storageOk) return;
+  try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){ storageOk = false; }
+}
+let S = load();
+if(!S.settings) S.settings = {newLimit:15};
+
+const today = () => Math.floor((Date.now() - new Date().getTimezoneOffset()*60000) / 864e5);
+const st = id => S.cards[id];
+const isDue = id => { const s = st(id); return s && s.due <= today(); };
+const isMature = id => { const s = st(id); return s && s.iv >= 21; };
+
+function counts(){
+  const t = today();
+  let due=0, fresh=0, mature=0;
+  for(const c of DECK){
+    const s = st(c.id);
+    if(!s) fresh++;
+    else { if(s.due <= t) due++; if(s.iv >= 21) mature++; }
+  }
+  return {due, fresh, mature};
+}
+
+const fmtIv = d => { d = Math.round(d); if(d < 1) d = 1; return d < 30 ? d + ' д' : '≈' + Math.round(d/30) + ' мес'; };
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+let view = 'home';
+let session = null;
+let shown = false;
+
+function startSession(sec){
+  const pool = sec ? DECK.filter(c => c.sec === sec) : DECK;
+  const due = pool.filter(c => isDue(c.id)).sort((a,b) => st(a.id).due - st(b.id).due).map(c => c.id);
+  const lim = S.settings.newLimit;
+  const fresh = pool.filter(c => !st(c.id)).map(c => c.id).slice(0, lim === 'all' ? Infinity : lim);
+  session = {queue: [...due, ...fresh], total: due.length + fresh.length, done: 0, rev: due.length, fresh: fresh.length, sec: sec || null};
+  shown = false;
+  view = session.queue.length ? 'study' : 'home';
+  render();
+}
+
+function rate(grade){
+  const id = session.queue[0];
+  let s = st(id) || {iv:0, ease:2.5, reps:0, lapses:0, due:0};
+  const learning = s.reps === 0 || s.iv === 0;
+  const requeue = pos => { session.queue.splice(Math.min(pos, session.queue.length), 0, id); };
+  session.queue.shift();
+  if(grade === 'again'){
+    if(!learning) s.lapses++;
+    s.ease = Math.max(1.3, s.ease - 0.2); s.iv = 0;
+    requeue(8);
+  } else if(grade === 'hard' && learning){
+    s.ease = Math.max(1.3, s.ease - 0.15);
+    requeue(4);
+  } else {
+    if(grade === 'hard'){ s.iv = Math.max(s.iv + 1, Math.round(s.iv * 1.2)); s.ease = Math.max(1.3, s.ease - 0.15); }
+    if(grade === 'good'){ s.iv = learning ? 1 : Math.max(s.iv + 1, Math.round(s.iv * s.ease)); }
+    if(grade === 'easy'){ s.iv = learning ? 3 : Math.max(s.iv + 2, Math.round(s.iv * s.ease * 1.35)); s.ease = Math.min(3, s.ease + 0.15); }
+    s.iv = Math.min(s.iv, 365);
+    s.reps++; s.due = today() + s.iv;
+    session.done++;
+  }
+  S.cards[id] = s; save(S);
+  shown = false;
+  if(!session.queue.length) view = 'done';
+  render();
+}
+
+function resetAll(){
+  if(confirm('Сбросить весь прогресс повторений? Карточки останутся, статистика обнулится.')){
+    S = {cards:{}, settings:S.settings}; save(S); render();
+  }
+}
+
+function heBlock(c){
+  if(!c.he) return '';
+  return c.he.map(l => `<div class="heblock"><div class="he" lang="he">${esc(l.h)}</div><div class="tr">${esc(l.t)}</div><div class="ru">${esc(l.r)}</div></div>`).join('');
+}
+
+function homeView(){
+  const {due, fresh, mature} = counts();
+  const lim = S.settings.newLimit;
+  const nNew = lim === 'all' ? fresh : Math.min(lim, fresh);
+  const canStudy = due + nNew > 0;
+  const secRows = SECTIONS.map(sec => {
+    const cs = DECK.filter(c => c.sec === sec);
+    const m = cs.filter(c => isMature(c.id)).length;
+    const y = cs.filter(c => st(c.id) && !isMature(c.id)).length;
+    const sdue = cs.filter(c => isDue(c.id)).length;
+    const sfresh = cs.filter(c => !st(c.id)).length;
+    const sNew = lim === 'all' ? sfresh : Math.min(lim, sfresh);
+    const can = sdue + sNew > 0;
+    const ssub = can ? [sdue ? sdue + ' к повторению' : '', sNew ? sNew + ' новых' : ''].filter(Boolean).join(' · ') : 'на сегодня всё ✓';
+    return `<button class="sec-row" data-action="study-sec" data-sec="${esc(sec)}" ${can ? '' : 'disabled'}><span class="info"><span class="name">${esc(sec)}</span><span class="ssub">${ssub}</span></span><span class="right"><span class="cnt">${m + y}/${cs.length}</span><span class="bar"><i class="m" style="width:${m/cs.length*100}%"></i><i class="y" style="width:${y/cs.length*100}%"></i></span></span><span class="chev"></span></button>`;
+  }).join('');
+  return `
+  <div class="hdr"><h1>Гиюр · карточки</h1><span class="sub">5786</span></div>
+  <div class="sub" style="color:var(--muted);font-size:13.5px">Итоговые вопросы курса — ${DECK.length} карточек · реформистская традиция, Израиль</div>
+  <div class="statline">
+    <div class="stat due"><b>${due}</b><span>к повторению</span></div>
+    <div class="stat"><b>${fresh}</b><span>новых</span></div>
+    <div class="stat mature"><b>${mature}</b><span>выучено</span></div>
+  </div>
+  <div class="actions">
+    <button class="btn primary" data-action="study" ${canStudy ? '' : 'disabled'}>${canStudy ? 'Заниматься' : 'На сегодня всё ✓'}<small>${canStudy ? due + ' к повторению · ' + nNew + ' новых' : 'загляни завтра — повторения появятся по расписанию'}</small></button>
+    <button class="btn secondary" data-action="browse">Все карточки и ответы</button>
+  </div>
+  <div class="setrow"><label for="newlim">Новых карточек за занятие</label><select id="newlim">
+    ${[5,10,15,25,50].map(n => `<option value="${n}" ${lim === n ? 'selected' : ''}>${n}</option>`).join('')}
+    <option value="all" ${lim === 'all' ? 'selected' : ''}>все</option>
+  </select></div>
+  <div class="eyebrow sec-head">Занятия по разделам</div>
+  <div class="sec-list">${secRows}</div>
+  <div class="foot">${storageOk ? 'Прогресс хранится в этом браузере и не синхронизируется между устройствами.' : '⚠ Хранилище недоступно — прогресс не переживёт перезагрузку страницы.'}<br><button class="linkbtn" data-action="reset">Сбросить прогресс</button></div>`;
+}
+
+function studyView(){
+  const c = DECK.find(x => x.id === session.queue[0]);
+  const s = st(c.id);
+  const learning = !s || s.reps === 0 || s.iv === 0;
+  const pct = session.total ? session.done / session.total * 100 : 0;
+  const sub = {
+    again: 'сейчас',
+    hard: learning ? 'скоро' : fmtIv(Math.max(s.iv + 1, s.iv * 1.2)),
+    good: learning ? '1 д' : fmtIv(Math.max(s.iv + 1, s.iv * s.ease)),
+    easy: learning ? '3 д' : fmtIv(Math.max(s.iv + 2, s.iv * s.ease * 1.35))
+  };
+  const badge = c.p ? '<span class="chip gold">личный ответ</span>' : '';
+  const isNew = !s;
+  return `<div class="studywrap">
+  <div class="topbar"><button class="linkbtn" data-action="home">← Выйти</button><span class="progress"><i style="width:${pct}%"></i></span><span class="counter">${session.done} / ${session.total}</span></div>
+  <div class="card">
+    <div class="meta"><span class="eyebrow">${esc(c.sec)} · ${esc(c.topic)}</span>${badge}${isNew ? '<span class="chip" style="background:var(--accent-soft);color:var(--accent)">новая</span>' : ''}</div>
+    <p class="q">${esc(c.q)}</p>
+    ${shown ? `<div class="answer${c.p ? ' personal' : ''}"><p class="a">${esc(c.a)}</p>${heBlock(c)}${c.d ? `<p class="d">${esc(c.d)}</p>` : ''}</div>` : ''}
+  </div>
+  <div class="kbdhint">${shown ? '1 — снова · 2 — трудно · 3 — хорошо · 4 — легко' : 'пробел — показать ответ'} · esc — выход</div>
+  </div>
+  <div class="ratebar"><div class="inner${shown ? '' : ' single'}">
+  ${shown
+    ? `<button class="rate again" data-action="rate" data-g="again">Снова<small>${sub.again}</small></button>
+       <button class="rate hard" data-action="rate" data-g="hard">Трудно<small>${sub.hard}</small></button>
+       <button class="rate good" data-action="rate" data-g="good">Хорошо<small>${sub.good}</small></button>
+       <button class="rate easy" data-action="rate" data-g="easy">Легко<small>${sub.easy}</small></button>`
+    : `<button class="rate flip" data-action="flip">Показать ответ</button>`}
+  </div></div>`;
+}
+
+function doneView(){
+  const pool = session.sec ? DECK.filter(c => c.sec === session.sec) : DECK;
+  const fresh = pool.filter(c => !st(c.id)).length;
+  const scope = session.sec ? `«${esc(session.sec)}» · ` : '';
+  const moreBtn = session.sec
+    ? `<button class="btn primary" data-action="study-sec" data-sec="${esc(session.sec)}">Ещё новые из раздела</button>`
+    : '<button class="btn primary" data-action="study">Ещё новые</button>';
+  return `
+  <div class="topbar"><button class="linkbtn" data-action="home">← На главную</button></div>
+  <div class="done">
+    <h2>Занятие завершено</h2>
+    <p>${scope}Пройдено карточек: ${session.done}${fresh ? ` · осталось новых: ${fresh}` : ' · все карточки в работе'}</p>
+    <div class="actions" style="margin:0">
+      ${fresh ? moreBtn : ''}
+      <button class="btn secondary" data-action="home">На главную</button>
+    </div>
+  </div>`;
+}
+
+let query = '';
+function browseView(){
+  const q = query.trim().toLowerCase();
+  const match = c => !q || (c.q + ' ' + c.a + ' ' + (c.d||'') + ' ' + c.topic).toLowerCase().includes(q);
+  const secs = SECTIONS.map(sec => {
+    const cs = DECK.filter(c => c.sec === sec && match(c));
+    if(!cs.length) return '';
+    const items = cs.map(c => {
+      const s = st(c.id);
+      const dot = !s ? '' : isMature(c.id) ? ' m' : ' y';
+      return `<details class="qa"><summary><span class="dot${dot}"></span><span><span class="topic">${esc(c.topic)}${c.p ? ' · личный ответ' : ''}</span>${esc(c.q)}</span></summary><div class="body"><p class="a">${esc(c.a)}</p>${heBlock(c)}${c.d ? `<p class="d">${esc(c.d)}</p>` : ''}</div></details>`;
+    }).join('');
+    return `<details class="sec" ${q ? 'open' : ''}><summary>${esc(sec)}<span class="n">${cs.length}</span></summary>${items}</details>`;
+  }).join('');
+  return `
+  <div class="topbar"><button class="linkbtn" data-action="home">← На главную</button></div>
+  <input class="search" id="search" type="search" placeholder="Поиск по вопросам и ответам…" value="${esc(query)}">
+  ${secs || '<p style="color:var(--muted);text-align:center">Ничего не найдено</p>'}`;
+}
+
+const app = document.getElementById('app');
+function render(){
+  app.innerHTML = view === 'study' ? studyView() : view === 'done' ? doneView() : view === 'browse' ? browseView() : homeView();
+  if(view === 'home'){
+    const sel = document.getElementById('newlim');
+    sel.addEventListener('change', () => { S.settings.newLimit = sel.value === 'all' ? 'all' : +sel.value; save(S); render(); });
+  }
+  if(view === 'browse'){
+    const inp = document.getElementById('search');
+    inp.addEventListener('input', () => {
+      query = inp.value;
+      const pos = inp.selectionStart;
+      render();
+      const ni = document.getElementById('search');
+      ni.focus(); ni.setSelectionRange(pos, pos);
+    });
+  }
+  if(view !== 'study') window.scrollTo(0, 0);
+}
+
+app.addEventListener('click', e => {
+  const el = e.target.closest('[data-action]');
+  if(!el) return;
+  const act = el.dataset.action;
+  if(act === 'study') startSession();
+  if(act === 'study-sec') startSession(el.dataset.sec);
+  if(act === 'browse'){ view = 'browse'; query = ''; render(); }
+  if(act === 'home'){ view = 'home'; session = null; render(); }
+  if(act === 'flip'){ shown = true; render(); window.scrollTo(0, 0); }
+  if(act === 'rate') rate(el.dataset.g);
+  if(act === 'reset') resetAll();
+});
+
+document.addEventListener('keydown', e => {
+  if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') { if(e.key === 'Escape') e.target.blur(); return; }
+  if(view === 'study'){
+    if(!shown && (e.key === ' ' || e.key === 'Enter')){ e.preventDefault(); shown = true; render(); }
+    else if(shown && ['1','2','3','4'].includes(e.key)){ rate(['again','hard','good','easy'][+e.key - 1]); }
+    else if(e.key === 'Escape'){ view = 'home'; session = null; render(); }
+  } else if(view === 'done' || view === 'browse'){
+    if(e.key === 'Escape'){ view = 'home'; render(); }
+  }
+});
+
+render();
+</script>
