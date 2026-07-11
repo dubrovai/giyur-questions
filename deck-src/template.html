@@ -171,6 +171,7 @@ function counts(){
 
 const fmtIv = d => { d = Math.round(d); if(d < 1) d = 1; return d < 30 ? d + ' д' : '≈' + Math.round(d/30) + ' мес'; };
 const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const shuffle = a => { for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 let view = 'home';
 let session = null;
@@ -178,10 +179,10 @@ let shown = false;
 
 function startSession(sec){
   const pool = sec ? DECK.filter(c => c.sec === sec) : DECK;
-  const due = pool.filter(c => isDue(c.id)).sort((a,b) => st(a.id).due - st(b.id).due).map(c => c.id);
+  const due = pool.filter(c => isDue(c.id)).map(c => c.id);
   const lim = S.settings.newLimit;
-  const fresh = pool.filter(c => !st(c.id)).map(c => c.id).slice(0, lim === 'all' ? Infinity : lim);
-  session = {queue: [...due, ...fresh], total: due.length + fresh.length, done: 0, rev: due.length, fresh: fresh.length, sec: sec || null};
+  const fresh = shuffle(pool.filter(c => !st(c.id)).map(c => c.id)).slice(0, lim === 'all' ? Infinity : lim);
+  session = {queue: shuffle([...due, ...fresh]), total: due.length + fresh.length, done: 0, rev: due.length, fresh: fresh.length, sec: sec || null};
   shown = false;
   view = session.queue.length ? 'study' : 'home';
   render();
