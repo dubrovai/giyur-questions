@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Гиюр — карточки</title>
+<title>Гиюр · Итоговые вопросы курса</title>
 </head>
 <body>
 <style>
@@ -251,24 +251,24 @@ function homeView(){
     return `<button class="sec-row" data-action="study-sec" data-sec="${esc(sec)}" ${can ? '' : 'disabled'}><span class="info"><span class="name">${esc(sec)}</span><span class="ssub">${ssub}</span></span><span class="right"><span class="cnt">${m + y}/${cs.length}</span><span class="bar"><i class="m" style="width:${m/cs.length*100}%"></i><i class="y" style="width:${y/cs.length*100}%"></i></span></span><span class="chev"></span></button>`;
   }).join('');
   return `
-  <div class="hdr"><h1>Гиюр · итоговые вопросы курса</h1></div>
-  <div class="sub" style="color:var(--muted);font-size:13.5px">Реформистская традиция · ${DECK.length} карточек · Израиль · 5786</div>
+  <div class="hdr"><h1>Гиюр · Итоговые вопросы курса</h1></div>
+  <div class="sub" style="color:var(--muted);font-size:13.5px">Реформистская традиция · Израиль · 5786</div>
   <div class="statline">
     <div class="stat due"><b>${due}</b><span>к повторению</span></div>
     <div class="stat"><b>${fresh}</b><span>новых</span></div>
     <div class="stat mature"><b>${mature}</b><span>выучено</span></div>
   </div>
-  <div class="actions">
-    <button class="btn primary" data-action="study" ${canStudy ? '' : 'disabled'}>${canStudy ? 'Заниматься' : 'На сегодня всё ✓'}<small>${canStudy ? due + ' к повторению · ' + nNew + ' новых' : 'загляни завтра — повторения появятся по расписанию'}</small></button>
-    <button class="btn secondary" data-action="browse">Все карточки и ответы</button>
-  </div>
   <div class="setrow"><label for="newlim">Выбери количество карточек для изучения</label><select id="newlim">
     ${[5,10,15,25,50].map(n => `<option value="${n}" ${lim === n ? 'selected' : ''}>${n}</option>`).join('')}
     <option value="all" ${lim === 'all' ? 'selected' : ''}>все</option>
   </select></div>
+  <div class="actions">
+    <button class="btn primary" data-action="study" ${canStudy ? '' : 'disabled'}>${canStudy ? 'Заниматься' : 'На сегодня всё ✓'}<small>${canStudy ? due + ' к повторению · ' + nNew + ' новых' : 'загляни завтра - повторения появятся по расписанию'}</small></button>
+    <button class="btn secondary" data-action="browse">Все карточки и ответы</button>
+  </div>
   <div class="eyebrow sec-head">Занятия по разделам</div>
   <div class="sec-list">${secRows}</div>
-  <div class="foot">${storageOk ? 'Прогресс хранится в этом браузере и не синхронизируется между устройствами.' : '⚠ Хранилище недоступно — прогресс не переживёт перезагрузку страницы.'}<br><button class="linkbtn" data-action="reset">Сбросить прогресс</button><div class="byline">by <a href="https://t.me/dubrovai" target="_blank" rel="noopener">Alexei Dubrovai</a></div></div>`;
+  <div class="foot">${storageOk ? 'Прогресс хранится в этом браузере и не синхронизируется между устройствами.' : '⚠ Хранилище недоступно, прогресс не переживёт перезагрузку страницы.'}<br><button class="linkbtn" data-action="reset">Сбросить прогресс</button><div class="byline">made by <a href="https://t.me/dubrovai" target="_blank" rel="noopener">Alexei Dubrovai</a></div></div>`;
 }
 
 function studyView(){
@@ -291,7 +291,7 @@ function studyView(){
     <p class="q">${esc(c.q)}</p>
     ${shown ? `<div class="answer${c.p ? ' personal' : ''}"><p class="a">${esc(c.a)}</p>${heBlock(c)}${c.d ? `<p class="d">${esc(c.d)}</p>` : ''}</div>` : ''}
   </div>
-  <div class="kbdhint">${shown ? '1 — снова · 2 — трудно · 3 — хорошо · 4 — легко' : 'пробел — показать ответ'} · esc — выход</div>
+  <div class="kbdhint">${shown ? '1 - снова · 2 - трудно · 3 - хорошо · 4 - легко' : 'пробел - показать ответ'} · esc - выход</div>
   </div>
   <div class="ratebar"><div class="inner${shown ? '' : ' single'}">
   ${shown

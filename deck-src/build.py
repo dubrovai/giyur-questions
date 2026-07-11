@@ -27,7 +27,7 @@ deck_js = json.dumps(deck, ensure_ascii=False, separators=(',', ':')).replace('<
 body = template.replace('/*__DECK__*/[]', deck_js)
 assert deck_js in body, 'placeholder not replaced'
 
-title = 'Гиюр — карточки'
+title = 'Гиюр · Итоговые вопросы курса'
 (SCRATCH / 'giyur-cards-artifact.html').write_text(f'<title>{title}</title>\n' + body, encoding='utf-8')
 
 local = (
