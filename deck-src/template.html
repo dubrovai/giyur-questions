@@ -42,7 +42,7 @@ button{font-family:var(--sans);cursor:pointer;border:none;background:none;color:
 .chip{display:inline-block;font-size:11px;letter-spacing:.05em;font-weight:600;padding:2px 9px;border-radius:99px}
 .chip.gold{background:var(--gold-soft);color:var(--gold)}
 .hdr{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:6px 0 4px}
-.hdr h1{font-family:var(--serif);font-size:24px;margin:0;font-weight:700;letter-spacing:.01em;text-wrap:balance}
+.hdr h1{font-family:var(--serif);font-size:clamp(15px,calc((100vw - 32px)*0.052),24px);margin:0;font-weight:700;letter-spacing:.01em;white-space:nowrap}
 .hdr .sub{color:var(--muted);font-size:13px}
 .statline{display:flex;gap:18px;margin:14px 0 18px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
 .stat b{display:block;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.15}
